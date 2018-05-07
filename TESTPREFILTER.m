@@ -1,0 +1,32 @@
+x_pf_old = [0.895;-1.256;0.3456;0.543;0.52;0.35;0;0;0];
+P_pf_old = diag([10^4 10^4 10^4 10^6 10^6 10^6 10^6 10^6 10^6]);
+x=wgn(1,500,0.2);
+x=x';
+xp=0;
+for i=1:498
+    [xn,pn]=prefilter(x(i:i+2),x_pf_old,P_pf_old);
+    xp(i:i+2)=xn(1:3);
+    xd(i:i+2)=xn(4:6);
+end
+figure(2);
+subplot(2,1,1);
+plot(x,'g');
+title('Measured Magnetic field values');
+xlabel('Time(s)');
+ylabel('Amplitude(nT)');
+subplot(2,1,2);
+plot(xp,'b');
+title('A posteriori Magnetic field values');
+xlabel('Time(s)');
+ylabel('Amplitude(nT)');
+figure(3);
+plot(x,'g');
+title('Measured Magnetic field values');
+xlabel('Time(s)');
+ylabel('Amplitude(nT)');
+hold on;
+plot(xd,'b');
+title('First Differentials of Magnetic field values');
+xlabel('Time(s)');
+ylabel('Amplitude(nT)');
+legend('Measured Magnetic Field', 'First order derivatives of Magnetic Field');
